@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 import joblib
 import pathlib
 
@@ -14,7 +15,7 @@ def load_data(data_path,target,testseed,seed):
 
 
 def model_building(x_train, x_test, y_train, y_test, path):
-    model = LogisticRegression()
+    model = DecisionTreeClassifier()
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
     try:

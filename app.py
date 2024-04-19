@@ -18,9 +18,9 @@ app=FastAPI()
 model_path='models/model.joblib'
 model=load(model_path)
 
-@app.get('/home')
+@app.get('/')
 def home():
-    return f"hey we are on successfull!"
+    return "hey we are on successfull!"
 
 @app.post('/predict')
 def predict(input_data: PredictionInput):
@@ -38,7 +38,9 @@ def predict(input_data: PredictionInput):
         prediction = model.predict(feat)[0].item()
         return f"predictions : {prediction}"
 
-if __name__=="__main__":
-     import uvicorn
-     uvicorn.run(app,host="0.0.0.0",port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+
 
