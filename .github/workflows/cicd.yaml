@@ -79,7 +79,7 @@ jobs:
           ECR_REPOSITORY: hareram
           IMAGE_TAG: latest
         run: |
-          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker pull $ECR_REGISTRY/hareram:latest
       
       - name: Delete Previous Container
         run: |
