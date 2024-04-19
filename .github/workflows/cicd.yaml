@@ -86,7 +86,7 @@ jobs:
           docker rm -f myapp || true
       - name: Run Docker Image to serve users
         run: |
-          docker run -d --name=myapp -p 80:8080 $ECR_REGISTRY/mushroom:latest
+          docker run -d --name=myapp -p 8000:8000 $ECR_REGISTRY/mushroom:latest
       
 
 #RAAM 
