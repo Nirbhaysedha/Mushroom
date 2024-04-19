@@ -76,10 +76,10 @@ jobs:
       - name: Pull latest images
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: hareram
+          ECR_REPOSITORY: mushroom
           IMAGE_TAG: latest
         run: |
-          docker pull $ECR_REGISTRY/hareram:latest
+          docker pull $ECR_REGISTRY/mushroom:latest
       
       - name: Delete Previous Container
         run: |
