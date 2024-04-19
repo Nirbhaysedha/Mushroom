@@ -1,0 +1,43 @@
+# deployment by kubernetes
+#deployment.yaml file
+# first install kubernets and then in deployment.yaml file wirite 
+# kubernets deployment you will get option press that this code is ready
+
+
+
+
+
+kubernetes apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trip-duration
+spec: # spec means how my app gonna function
+  replicas: 5 # 5no of pods in a node 
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: trip-duration
+    spec:
+      containers:
+      - name: trip-duration
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi" # here we have specified 128 megha bytes
+            cpu: "500m" #1core equals to 1000 mili core here we have written half core
+        ports:
+        - containerPort: 8080
+---  # writing new deployment.yaml
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: myapp
+spec: 
+  selector:
+    app: myapp
+  ports:
+  - port: 1234 # port no which run outside container
+    targetport: 8000  # portno which runs inside the container
