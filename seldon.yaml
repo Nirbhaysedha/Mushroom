@@ -1,0 +1,110 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: iris-model
+  namespace: seldon
+spec:
+  name: iris
+  predictors:
+  - graph:
+      implementation: SKLEARN_SERVER
+      modelUri: gs://seldon-models/v1.18.0-dev/sklearn/iris # give model path here if needed
+      name: classifier
+    name: default
+    replicas: 1
+
+
+
+
+# seldon is written with simple principle to make life of data scientist easy 
+# it uses the architecture of kubernetes
+#so in specific to AIOPS we can create multiple models around sklearn,pytorch,keras the wrapping or dumping of these models are different  to wrap this models we have wrapper server  they make our task easier to access these models
+# so after this scientist thought that if we integrate the wrapper servers with kubernetes that will lead to optimized distributed computing for deployments
+# so seldon comes with an idea where the integrated wrapper servers with kubernetes
+# BEST TOOL FOR MLOPS IS SELDON 
+# so seldon.io is paid version 
+# and there is free version on seldon avaialble on github that is seldon core
+# features of seldon core :
+# out of box endpoints :- we can easily access any model that become ready to deploy 
+# cloud agnostic :- can work with any cloud provider
+# in kuberntes we have to do lot of manual work but in seldon its so easy
+
+
+# in kubernetes the package manager is called as helm
+# so suppose in a cluster i want to download a app on evry machine thtat is done by helm
+# it is like pip or conda for k8s
+
+
+# ISTIO   (networking management)
+# ingress controller is:- when we want to get in to a node this connection is controlled by ingress controller
+# egress controller is :- when we want to take something out from a node this connection is controlled by egress controller
+# so for these two things we have istio or ambassdors 
+# the injections between the namespaces or other things is done by istio
+# inout traffic within a cluster and in between is managed by istio
+
+
+
+
+
+# Important:
+# seldon is specially for complicated distributed deploymnet where we have n no of models
+# # in sledon we dont need to write that whole app.py file just need to give the model access to sledon it will do all things 
+# # from pydantic to containerization
+# in this we can add multiple models in graph section and it is easily scalable
+# here we can make graphs within we can desrcibe complex deployments of the multiple microservices in containers
+# in seldon yaml file graph section is creating dag of multiple workflows and orchestration
+
+# SELDON IS SPECIALIZED FOR MODEL DEPLOYMENT
+
+#------------------------------- SELDON CORE start working ----------------------------------------------------------
+# 1. (install minikube helm) 
+# 2. minikube start
+# 3. helm repo add seldon https://storage.googleapis.com/seldon-charts   (# Add the Seldon Core Helm repository)
+# 4. helm repo update  (# Update Helm repositories)
+# 5. kubectl create namespace seldon-system (namespace mean that the seldon system will be run on same hardware but isolated from cluster) 
+# 6. helm install seldon-core seldon/seldon-core-operator --namespace seldon-system  (# Install Seldon Core Operator in a namespace created in step4) 
+# 7. kubectl apply -f seldon_deployment.yaml  (to deploy an applying the file config as mentioned in seldon.yaml)
+
+
+
+
+
+
+
+#--------------------------------  kubeflow and airflow  ----------------------------------
+# dags are important becuase of complex architecture of project
+# where we have multiple models and file that are talking with each other
+#kubeflow pipeline and airflow pipelines are highly used for ml automation and workflows
+# for general purpose dags we have airflow
+# with specific to ml and dag on kuberntes architecture we have kubeflow
+# airflow is general purpose dag orchestration tool
+# airflow + kubernetes =kubeflow 
+# in kubeflow pipelines when we add decorators that each python function will be count as an image 
+# in kubeflow dashboards the pipeline is version controlled and 
+
+
+# to do anything in ml go for kubeflow , before applying ml go for airflow
+#-----------------------------------kubeflow setup------------------------------------------
+# 1. (to install kubeflow we have below commands)
+# minikube start
+# export PIPELINE_VERSION=2.0.5
+# kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+# kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+# kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
+# 2. kuberntetes , kubeflow will understand this by the decorators provided in python script
+# the decorator which we have added on function defination that each function will be converted as container and by this we can make multiple comple dag or pipelines
+# after this we get our yaml file by the code which creates our whole pipeline 
+# once the yaml file is ready 
+
+# import kfp   #kfp is kube flow pipelines
+# from kfp import dsl
+# from kfp.components import func_to_container_op, InputPath
+
+# @dsl.component(base_image='tensorflow/tensorflow',packages_to_install=['scikit-learn'])   # different functions 
+# @dsl.pipeline(name='Retraining Pipeline', description='A classification model retraining pipeline')  # stiching them into pipeline or we can say dag
+#kfp.compiler.Compiler().compile(retraining_pipeline, 'retraining_pipeline.yaml') # now compiling our pipeline
+
+
+# by this code we get the yaml file which has the complete pipeline or dag of our project and contains all the workflows
+
+# 3. run the kubeflow server and upload the yaml which we got there and you will get running your pipeline
